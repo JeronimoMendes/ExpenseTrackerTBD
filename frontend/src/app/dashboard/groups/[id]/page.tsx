@@ -4,6 +4,7 @@ import { GroupView } from '@/api/types';
 import { DataTable } from '@/components/expenses/expenses-table';
 import { columns as expenseTableCols } from '@/components/expenses/expenses-table/columns';
 import { Icons } from '@/components/icons';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -148,10 +149,36 @@ export default function GroupPage({ params }: { params: { id: string } }) {
                 <TabsContent value='expenses'>
                     <Card>
                         <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                            <CardTitle>Recent Expenses</CardTitle>
+                            <CardTitle>Expenses</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <DataTable columns={expenseTableCols} data={group?.expenses} />
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+
+                <TabsContent value='members'>
+                    <Card>
+                        <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+                            <CardTitle>Members</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="grid gap-4">
+                                {group?.members.map((member) => (
+                                    <div key={member.id} className="flex items-center">
+                                        <Avatar className="h-9 w-9">
+                                            <AvatarImage src="/avatars/01.png" alt="Avatar" />
+                                            <AvatarFallback>{member.username.slice(0, 2)}</AvatarFallback>
+                                        </Avatar>
+                                        <div className="ml-4 space-y-1 flex-grow">
+                                            <p className="text-sm font-medium leading-none text-left">{member.username}</p>
+                                            <p className="text-sm text-muted-foreground text-left">
+                                                {member.email}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </CardContent>
                     </Card>
                 </TabsContent>
